@@ -11,5 +11,5 @@ export class UpdateUserDto {
     password: string;
 
     @IsOptional()
-    role: string;
+    role?: string;
 }

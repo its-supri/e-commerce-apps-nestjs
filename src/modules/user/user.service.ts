@@ -74,10 +74,13 @@ export class UserService {
       }
 
     async delete(username: string): Promise<void> {
-        const user = await this.userRepository.findOne({ where: { username } });
+        const user = await this.userRepository.findOne({ where: { username, isDeleted: false } });
         if (!user) {
             throw new NotFoundException('User not found');
         }
-        await this.userRepository.remove(user);
+        // soft delete by flag
+        user.deleted_at = new Date();
+        user.isDeleted = true;
+        await this.userRepository.save(user);
     }
 }
