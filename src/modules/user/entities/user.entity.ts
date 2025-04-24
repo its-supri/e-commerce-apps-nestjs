@@ -1,5 +1,5 @@
 import { Exclude, Expose } from "class-transformer";
-import { Roles } from "src/common/enums/role.enum";
+import { Roles } from "../../../common/enums/role.enum";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
@@ -27,11 +27,11 @@ export class User {
     @Column({type: "enum", enum: Roles, default: Roles.BUYER})
     role: string;
   
-    @Expose()
+    @Exclude()
     @CreateDateColumn({ type: 'timestamp', select: false })
     created_at: Date;
   
-    @Expose()
+    @Exclude()
     @UpdateDateColumn({ type: 'timestamp', select: false })
     updated_at: Date;
   
