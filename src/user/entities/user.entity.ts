@@ -8,7 +8,7 @@ export class User {
     id: number
 
     @Expose()
-    @Column()
+    @Column({unique: true})
     username: string;
   
     @Exclude()
