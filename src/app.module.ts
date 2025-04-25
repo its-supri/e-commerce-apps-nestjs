@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './modules/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './modules/auth/auth.module';
 import databaseConfig from './database/database.config';
 
 @Module({
@@ -11,6 +12,7 @@ import databaseConfig from './database/database.config';
       isGlobal: true
     }),
     UserModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

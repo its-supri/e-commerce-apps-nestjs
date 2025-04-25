@@ -15,8 +15,19 @@ export class UserService {
         private userRepository: Repository<User>
     ) {}
     
-    findAll(): Promise<User[]> {
-        return this.userRepository.find();
+    async findAll(): Promise<User[]> {
+        const users = await this.userRepository.find();
+        return plainToInstance(User, users, {
+          excludeExtraneousValues: true, // optional if you're only using @Exclude
+      });
+    }
+
+    findOne(username: string): Promise<User> {
+      const user = this.userRepository.findOne({ where: { username, isDeleted: false } });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      return user;
     }
 
     async create(createUserDto: CreateUserDto): Promise<any> {
