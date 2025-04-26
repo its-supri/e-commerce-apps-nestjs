@@ -1,6 +1,7 @@
 import { Exclude, Expose } from "class-transformer";
+import { Order } from "src/modules/order/entities/order.entity";
 import { User } from "src/modules/user/entities/user.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Product {
@@ -38,4 +39,8 @@ export class Product {
     // Many to One relation with User
     @ManyToOne(() => User, (user) => user.products, { onDelete: 'CASCADE' })
     user: User;
+
+    // One to Many relation with Order
+    @OneToMany(() => Order, (order) => order.product, { onDelete: 'CASCADE' })
+    orders: Order[];
 }

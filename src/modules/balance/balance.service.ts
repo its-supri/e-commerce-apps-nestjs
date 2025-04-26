@@ -22,12 +22,19 @@ export class BalanceService {
             where: { user: { id: jwtData.id } },
             relations: ['user']
         });
+    
         if (!userBalance) {
             throw new NotFoundException('Balance not found or you do not have permission to update it');
         }
-        // add old balance with new balance
-        userBalance.balance += balance;
+    
+        // Fix: Convert existing balance to number first
+        const currentBalance = parseFloat(userBalance.balance as any); // because it's string
+        const newBalance = currentBalance + balance;
+    
+        userBalance.balance = newBalance; 
+    
         await this.balanceRepository.save(userBalance);
         return userBalance;        
     }
+    
 }

@@ -3,6 +3,7 @@ import { Roles } from "../../../common/enums/role.enum";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Product } from "src/modules/product/entities/product.entity";
 import { Balance } from "src/modules/balance/entities/balance.entity";
+import { Order } from "src/modules/order/entities/order.entity";
 
 @Entity()
 export class User {
@@ -56,4 +57,8 @@ export class User {
     // One to One relation with Balance
     @OneToOne(() => Balance, (balance) => balance.user, { cascade: true })
     balance: Balance;
+
+    // One to Many relation with Order
+    @OneToMany(() => Order, (order) => order.user, { onDelete: 'CASCADE' })
+    orders: Order[];
 }

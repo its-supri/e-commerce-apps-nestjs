@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProductModule } from './modules/product/product.module';
 import { BalanceModule } from './modules/balance/balance.module';
+import { OrderModule } from './modules/order/order.module';
 import databaseConfig from './database/database.config';
 
 @Module({
@@ -17,6 +18,7 @@ import databaseConfig from './database/database.config';
     AuthModule,
     ProductModule,
     BalanceModule,
+    OrderModule,
   ],
   controllers: [],
   providers: [],
