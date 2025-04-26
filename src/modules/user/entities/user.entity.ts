@@ -1,6 +1,7 @@
 import { Exclude, Expose } from "class-transformer";
 import { Roles } from "../../../common/enums/role.enum";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Product } from "src/modules/product/entities/product.entity";
 
 @Entity()
 export class User {
@@ -46,4 +47,8 @@ export class User {
     @Exclude()
     @Column({ default: false })
     isDeleted: boolean;
+
+    // One to Many relation with Product
+    @OneToMany(() => Product, (product) => product.user, { onDelete: 'CASCADE' })
+    products: Product[];
 }

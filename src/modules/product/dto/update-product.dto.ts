@@ -1,0 +1,21 @@
+import { IsNotEmpty, IsNumber, IsOptional, MaxLength, Min, MinLength } from "class-validator";
+
+export class UpdateProductDto {
+    @MaxLength(100)
+    @MinLength(3)
+    name: string;
+
+    @IsNumber()
+    @Min(0)
+    price: number;
+    
+    @IsNumber()
+    @Min(0)
+    stock: number;
+
+    @IsOptional()
+    slug?: string;
+
+    @IsOptional()
+    userId?: number;
+}
