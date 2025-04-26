@@ -1,7 +1,8 @@
 import { Exclude, Expose } from "class-transformer";
 import { Roles } from "../../../common/enums/role.enum";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Product } from "src/modules/product/entities/product.entity";
+import { Balance } from "src/modules/balance/entities/balance.entity";
 
 @Entity()
 export class User {
@@ -51,4 +52,8 @@ export class User {
     // One to Many relation with Product
     @OneToMany(() => Product, (product) => product.user, { onDelete: 'CASCADE' })
     products: Product[];
+    
+    // One to One relation with Balance
+    @OneToOne(() => Balance, (balance) => balance.user, { cascade: true })
+    balance: Balance;
 }

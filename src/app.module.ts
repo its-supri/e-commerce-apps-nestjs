@@ -4,6 +4,7 @@ import { UserModule } from './modules/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProductModule } from './modules/product/product.module';
+import { BalanceModule } from './modules/balance/balance.module';
 import databaseConfig from './database/database.config';
 
 @Module({
@@ -15,6 +16,7 @@ import databaseConfig from './database/database.config';
     UserModule,
     AuthModule,
     ProductModule,
+    BalanceModule,
   ],
   controllers: [],
   providers: [],
