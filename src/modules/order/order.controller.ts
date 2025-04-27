@@ -6,7 +6,10 @@ import { Order } from './entities/order.entity';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { JwtUser } from 'src/common/class/jwt-user.dto';
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('Order')
 @Controller('order')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class OrderController {

@@ -6,7 +6,10 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { RolesGuard } from '../auth/guards/role.guard';
 import { Balance } from './entities/balance.entity';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('Balance')
 @Controller('balance')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class BalanceController {
