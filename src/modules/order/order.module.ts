@@ -3,10 +3,13 @@ import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
 import { Order } from './entities/order.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProductService } from '../product/product.service';
+import { KafkaModule } from 'src/kafka/kafka.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order])],
+  imports: [
+    TypeOrmModule.forFeature([Order]),
+    KafkaModule,
+  ],
   controllers: [OrderController],
   providers: [OrderService],
   exports: [OrderService]

@@ -6,6 +6,8 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { User } from '../user/entities/user.entity';
 import { Product } from '../product/entities/product.entity';
 import { Balance } from '../balance/entities/balance.entity';
+import { KafkaService } from 'src/kafka/kafka.service';
+import { KafkaOrderDto } from './dto/kafka-order.dto';
 
 @Injectable()
 export class OrderService {
@@ -13,6 +15,7 @@ export class OrderService {
         @InjectRepository(Order)
         private orderRepository: Repository<Order>,
         private entityManager: EntityManager,
+        private readonly kafkaService: KafkaService
     ) {}
 
     async findAll(): Promise<Order[]> {
@@ -66,9 +69,18 @@ export class OrderService {
             userId: user.id,
             productId,
           });
-    
-          return await manager.save(order);
+
+          // 7. Send order to Kafka
+          const userEmail = await manager.findOne(User, { where: { id: user.id } });
+          const kafkaOrder = new KafkaOrderDto();
+          kafkaOrder.quantity = quantity;
+          kafkaOrder.product = product.name;
+          kafkaOrder.userEmail = userEmail.email;
+          console.log('Order sent to Kafka:', kafkaOrder);
+          await this.kafkaService.sendOrderToKafka(kafkaOrder); 
+
+          // 8. Save order
+          return manager.save(order);
         });
     }
-    
 }
