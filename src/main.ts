@@ -3,9 +3,12 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['log', 'debug', 'error', 'warn'],
+  });
   app.setGlobalPrefix('api/v1/');
   app.useGlobalPipes(new ValidationPipe());
 
@@ -34,6 +37,21 @@ async function bootstrap() {
   .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
+
+  // Connect Microservice Kafka server
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.KAFKA,
+    options: {
+      client: {
+        brokers: ['localhost:9092'],
+      },
+      consumer: {
+        groupId: 'ecommerce-consumer-group-test',
+      },
+    },
+  });
+
+  await app.startAllMicroservices(); // << start microservices
 
   await app.listen(configService.get('PORT', 3000));
 }
